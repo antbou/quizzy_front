@@ -1,10 +1,10 @@
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
+import Navbar from "@/components/navigation/Navbar";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <DarkModeToggle />
+      <Navbar />
       <section className="flex flex-col items-center justify-center min-h-screen text-center">
         <h1 className="text-4xl font-bold">Vite + React + Tailwind CSS</h1>
         <p className="mt-4">with TypeScript, ESLint, Prettier, and Husky</p>
