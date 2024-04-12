@@ -1,60 +1,30 @@
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import {
-  BarChart3,
-  Github,
-  LogIn,
-  MenuIcon,
-  Search,
-  Users,
-} from "lucide-react";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/Drawer";
+import { Github, MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
+import { MenuItem } from "@/components/navigation/Navbar";
+import LinkButton from "@/components/navigation/LinkButton";
+import { useState } from "react";
 
-export default function Mobile() {
+export default function Mobile({ items }: { items: MenuItem[] }) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Drawer direction="right">
+    <Drawer direction="right" onOpenChange={setIsOpen} open={isOpen}>
       <div className="flex justify-between items-center gap-4">
         <DarkModeToggle />
-        <DrawerTrigger>
+        <DrawerTrigger onClick={() => setIsOpen(!isOpen)}>
           <MenuIcon size={36} />
         </DrawerTrigger>
       </div>
       <DrawerContent>
         <div className="flex flex-col space-y-3">
-          <Button
-            size="sm"
-            className="flex gap-2 justify-start"
-            variant={"ghost"}
-          >
-            <LogIn />
-            Login
-          </Button>
-          <hr />
-          <Button
-            size="sm"
-            className="flex gap-2 justify-start"
-            variant={"ghost"}
-          >
-            <Search />
-            Search
-          </Button>
-
-          <Button
-            size="sm"
-            className="flex gap-2 justify-start"
-            variant={"ghost"}
-          >
-            <BarChart3 />
-            Stats
-          </Button>
-          <Button
-            size="sm"
-            className="flex gap-2 justify-start"
-            variant={"ghost"}
-          >
-            <Users />
-            Users
-          </Button>
+          {items.map((item, index) => (
+            <LinkButton
+              key={index}
+              item={item}
+              onClick={() => setIsOpen(false)}
+            />
+          ))}
           <hr />
           <Button
             size="sm"

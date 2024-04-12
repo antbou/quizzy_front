@@ -1,29 +1,23 @@
 import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
-import { Button } from "@/components/ui/Button";
-import { BarChart3, LogIn, Search, Users } from "lucide-react";
+import { MenuItem } from "./Navbar";
+import LinkButton from "./LinkButton";
 
-export default function DesktopMenu() {
+export default function DesktopMenu({ items }: { items: MenuItem[] }) {
   return (
     <div className="flex w-full justify-between">
       <div className="flex items-center space-x-6">
-        <Button size="sm" className="flex items-center gap-2" variant={"ghost"}>
-          <BarChart3 />
-          Stats
-        </Button>
-        <Button size="sm" className="flex items-center gap-2" variant={"ghost"}>
-          <Users />
-          Users
-        </Button>
+        {items.map((item) =>
+          item.placement === "start" ? (
+            <LinkButton key={item.name} item={item} />
+          ) : null
+        )}
       </div>
       <div className="flex gap-4 items-center">
-        <Button size="sm" className="flex items-center gap-2" variant={"ghost"}>
-          <Search />
-          Search
-        </Button>
-        <Button size="sm" className="flex items-center gap-2">
-          <LogIn />
-          Login
-        </Button>
+        {items.map((item) =>
+          item.placement === "end" ? (
+            <LinkButton key={item.name} item={item} />
+          ) : null
+        )}
         <DarkModeToggle />
       </div>
     </div>
