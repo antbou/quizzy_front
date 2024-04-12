@@ -18,8 +18,6 @@ const menuItems: MenuItem[] = [
   { name: "Login", icon: LogIn, link: "/login", placement: "end" },
 ];
 
-console.log(menuItems);
-
 export default function Navbar() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
