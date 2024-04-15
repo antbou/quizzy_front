@@ -30,6 +30,9 @@ export default function Mobile({ items }: { items: MenuItem[] }) {
             size="sm"
             className="flex gap-2 justify-start items-center"
             variant={"ghost"}
+            onClick={() =>
+              window.open("https://github.com/antbou", "_blank", "noreferrer")
+            }
           >
             <Github />
             Check my GitHub
