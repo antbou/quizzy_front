@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 
-export const Route = createLazyFileRoute("/register")({
+export const Route = createLazyFileRoute("/_auth/register")({
   component: Register,
 });
 

@@ -8,11 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function api() {
   return ky.create({
-    prefixUrl: "https://localhost/api",
-    credentials: "include",
+    prefixUrl: import.meta.env.VITE_API_URL,
     headers: {
       "Content-Type": "application/json",
     },
-    throwHttpErrors: false,
+    credentials: "include",
   });
 }

@@ -149,14 +149,14 @@ const FormMessage = React.forwardRef<
   const body = error ? String(error?.message) : children;
 
   if (!body) {
-    return null;
+    return <p className={cn("h-2", className)} />;
   }
 
   return (
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
+      className={cn("text-sm font-medium text-destructive h-2", className)}
       {...props}
     >
       {body}

@@ -1,3 +1,5 @@
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+
 import { Button } from "@/components/ui/Button";
 import {
   Card,
@@ -19,7 +21,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { AuthStatus, useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
+import { HTTPError } from "ky";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+
+export const Route = createLazyFileRoute("/_auth/login")({
+  component: Login,
+});
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -30,9 +38,9 @@ const formSchema = z.object({
   }),
 });
 
-export default function Login() {
-  const { login, status } = useAuth();
-
+function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate({ from: "/login" });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,22 +48,20 @@ export default function Login() {
       password: "",
     },
   });
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await login(values.username, values.password);
-
-    // if (response) {
-    //   form.setError("username", { message: response.error });
-    // }
-    console.log(response);
-    // try {
-    //   await login(values.username, values.password);
-    // } catch (error) {
-    //   console.log("bonjour");
-    //   // console.log(form.setError("username", { message: error.message }));
-    //   // console.error(error);
-    //   form.setError("username", { message: "error.message" });
-    // }
+    await login(values.username, values.password)
+      .then(() => {
+        navigate({ to: "/" });
+      })
+      .catch(async (error: HTTPError) => {
+        const message = await error.response.json();
+        form.setError("root", {
+          type: "server",
+          message: message.error,
+        });
+      });
   };
 
   return (
@@ -112,11 +118,17 @@ export default function Login() {
                   )}
                 />
               </div>
-              <FormMessage />
-              <Button type="submit" className="w-full">
-                Login
-                {status === AuthStatus.Unknown && "Loading..."}
-              </Button>
+              <div className="flex items-center flex-col">
+                <Button type="submit" className="w-full gap-1">
+                  Login
+                  {isSubmitting && <LoadingSpinner />}
+                </Button>
+                {form.formState.errors.root && (
+                  <FormMessage className="text-destructive text-xl mt-2 font-bold">
+                    {form.formState.errors.root?.message}
+                  </FormMessage>
+                )}
+              </div>
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

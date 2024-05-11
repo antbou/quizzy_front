@@ -4,9 +4,9 @@ import { useCallback } from "react";
 import { api } from "@/lib/utils";
 
 export enum AuthStatus {
-  Guest,
-  Unknown,
-  Authenticated,
+  Unknown = 0,
+  Authenticated = 1,
+  Guest = 2,
 }
 
 export function useAuth() {
@@ -34,16 +34,12 @@ export function useAuth() {
 
   const login = useCallback((username: string, password: string) => {
     return api()
-      .post("session", { json: { username, password }, throwHttpErrors: false })
+      .post("session", { json: { username, password } })
       .json<Account>()
       .then(setAccount);
-    // apiFetch<Account>("/login", { json: { username, password } }).then(
-    //   setAccount
-    // );
   }, []);
 
   const logout = useCallback(() => {
-    // apiFetch<Account>("/logout", { method: "DELETE" }).then(setAccount);
     api()
       .delete("session")
       .then(() => setAccount(null));

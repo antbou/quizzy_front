@@ -1,10 +1,15 @@
 import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/navigation/Navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { AuthContext } from "@/contexts/AuthContext";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: AuthContext;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
