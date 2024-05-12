@@ -1,22 +1,28 @@
 import { Link } from "@tanstack/react-router";
-import { MenuItem } from "./Navbar";
 import { Button } from "../ui/Button";
+import { PropsWithChildren } from "react";
 
 interface LinkButtonProps {
-  item: MenuItem;
+  to?: string;
+  icon: JSX.Element;
   onClick?: () => void;
 }
 
-const LinkButton = ({ item, onClick }: LinkButtonProps) => (
-  <Link to={item.link} activeProps={{ className: "text-primary" }}>
+const LinkButton = ({
+  to,
+  icon,
+  onClick,
+  children,
+}: PropsWithChildren<LinkButtonProps>) => (
+  <Link to={to} activeProps={{ className: "text-primary" }}>
     <Button
       size="sm"
       className="flex gap-2 justify-start w-full"
       variant={"ghost"}
       onClick={onClick}
     >
-      <item.icon />
-      {item.name}
+      {icon}
+      {children}
     </Button>
   </Link>
 );

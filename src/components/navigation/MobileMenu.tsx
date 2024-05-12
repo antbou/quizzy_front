@@ -1,13 +1,17 @@
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/Drawer";
-import { Github, MenuIcon } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { MenuIcon } from "lucide-react";
 import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
 import { MenuItem } from "@/components/navigation/Navbar";
-import LinkButton from "@/components/navigation/LinkButton";
 import { useState } from "react";
+import React from "react";
 
 export default function Mobile({ items }: { items: MenuItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleItemClick = () => {
+    setIsOpen(false); // Close the drawer when an item is clicked
+  };
+
   return (
     <Drawer direction="right" onOpenChange={setIsOpen} open={isOpen}>
       <div className="flex justify-between items-center gap-4">
@@ -19,24 +23,12 @@ export default function Mobile({ items }: { items: MenuItem[] }) {
       <DrawerContent>
         <div className="flex flex-col space-y-3">
           {items.map((item, index) => (
-            <LinkButton
-              key={index}
-              item={item}
-              onClick={() => setIsOpen(false)}
-            />
+            <React.Fragment key={index}>
+              {React.cloneElement(item.linkButton, {
+                onClick: handleItemClick,
+              })}
+            </React.Fragment>
           ))}
-          <hr />
-          <Button
-            size="sm"
-            className="flex gap-2 justify-start items-center"
-            variant={"ghost"}
-            onClick={() =>
-              window.open("https://github.com/antbou", "_blank", "noreferrer")
-            }
-          >
-            <Github />
-            Check my GitHub
-          </Button>
         </div>
       </DrawerContent>
     </Drawer>
