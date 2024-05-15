@@ -7,7 +7,6 @@ type Props = {
 };
 
 export function useListQuizzes({ pagination }: Props) {
-  console.log("useListQuizzes");
   const queryKey = ["listQuizzes"];
 
   const { data, isLoading, error } = useQuery({
@@ -16,7 +15,7 @@ export function useListQuizzes({ pagination }: Props) {
   });
 
   return {
-    quizzes: data?.quizzes,
+    quizzes: data?.quizzes ?? [],
     pagination: data?.pagination,
     isLoading,
     error,
