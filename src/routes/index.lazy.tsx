@@ -1,4 +1,5 @@
 import { QuizCard } from "@/components/quizzes/QuizCard";
+import { QuizSkeletonCard } from "@/components/quizzes/QuizSkeletonCard";
 import { useListQuizzes } from "@/hooks/quizzes/useListQuizzes";
 import { Quiz } from "@/types";
 import { createLazyFileRoute } from "@tanstack/react-router";
@@ -21,17 +22,24 @@ function Index() {
           Discover New Topics or Craft Your Own Quizzes to Challenge Others.
         </h2>
       </div>
-      {isLoading && <p>Loading...</p>}
-      {error && (
-        <p className="text-red-500">An error occurred: {error.message}</p>
-      )}
-      {!isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 max-w-[1000px] mx-auto">
-          {quizzes.map((quiz: Quiz) => (
-            <QuizCard key={quiz.id} quiz={quiz} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 max-w-[1000px] mx-auto">
+        {error && (
+          <p className="text-red-500">An error occurred: {error.message}</p>
+        )}
+        {isLoading ? (
+          <>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <QuizSkeletonCard key={i} />
+            ))}
+          </>
+        ) : (
+          <>
+            {quizzes.map((quiz: Quiz) => (
+              <QuizCard key={quiz.id} quiz={quiz} />
+            ))}
+          </>
+        )}
+      </div>
     </section>
   );
 }
